@@ -1,0 +1,88 @@
+#N meetings in one room problem
+
+class Solution 
+{
+    //Function to find the maximum number of meetings that can
+    //be performed in a meeting room.
+    public static int maxMeetings(int start[], int end[], int n)
+    {
+        // add your code here
+        int meetings[][] = new int[start.length][3];
+        for(int i=0;i<start.length;i++){
+            meetings[i][0]=i;
+            meetings[i][1]=start[i];
+            meetings[i][2]=end[i];
+        }
+            
+        Arrays.sort(meetings, Comparator.comparingDouble(o->o[2]));
+        int maxMeet=1;
+        int lastIdxEnd=meetings[0][2];
+        for(int i=0;i<end.length;i++){
+            if(meetings[i][1]>lastIdxEnd){
+                maxMeet++;
+                lastIdxEnd=meetings[i][2];
+            }
+        }
+        return maxMeet;
+    }
+}
+
+#Minimum Platform problem
+
+static int findPlatform(int arr[], int dep[], int n){
+        Arrays.sort(dep);
+        Arrays.sort(arr);
+        
+        int ans=-1,count=0;
+        int i=0,j=0;
+        
+        while(i<n && j<n){
+            if(arr[i]<=dep[j]){
+                i++;
+                count++;
+            }else{
+                j++;
+                count--;
+            }
+            ans= Math.max(count,ans);
+        }
+        return ans;
+    }
+
+#Job Sequencing Problem
+
+class Solution
+{
+    int[] JobScheduling(Job arr[], int n)
+    {
+
+        Arrays.sort(arr,(a,b)->(b.profit-a.profit));
+        int maxi=0;
+
+        for(int i=0;i<n;i++){
+            maxi=Math.max(arr[i].deadline,maxi);
+        }
+
+        int[] res=new int[maxi+1];
+        int countJob=0;
+        int jobProfit=0;
+        Arrays.fill(res,-1);
+        for(int i=0;i<n;i++){
+            for(int j=arr[i].deadline;j>0;j--){
+
+                if(res[j]==-1){
+                    res[j]=arr[i].id;
+
+                    countJob++;
+
+                    jobProfit+=arr[i].profit;
+                    break;
+                }
+            }
+        }
+        int [] ans=new int[2];
+        ans[0]=countJob;
+        ans[1]=jobProfit;
+        return ans;
+    }
+}
